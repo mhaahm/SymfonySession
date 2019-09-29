@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CartController!
+{% endblock %}
+
+{% block body %}
+    <div class="bg-light p-3">
+        <h1>Votre panier</h1>
+    </div>
+    <table class="table table-striped">
+        <tr>
+            <th>Product name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total Price</th>
+            <th></th>
+        </tr>
+        {% set quntity = 0 %}
+        {% set price = 0 %}
+        {% for prod in products %}
+            <tr>
+                <td>{{ prod['product'].title }}</td>
+                <td>{{ prod['product'].price }}</td>
+                <td>{{ prod['quantity'] }}</td>
+                <td>{{ prod['product'].price*prod['quantity'] }}</td>
+                <td><a href="{{ path('cart_remove',{ 'id' :prod['product'].id }) }}">Remove Product</a> </td>
+            </tr>
+            {% set price = price + prod['product'].price*prod['quantity'] %}
+            {% set quntity = quntity + prod['quantity'] %}
+        {% endfor %}
+        <tfoot>
+          <tr style="background-color: #00B8F5;">
+              <td colspan="2"><b>Total : </b></td>
+              <td>{{ quntity }}</td>
+              <td colspan="2">{{ price }}</td>
+          </tr>
+        </tfoot>
+    </table>
+{% endblock %}
